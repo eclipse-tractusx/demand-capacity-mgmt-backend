@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class HelloController implements DefaultApi {
+
     @Override
     public ResponseEntity<Greeting> getGreeting() {
         return null;

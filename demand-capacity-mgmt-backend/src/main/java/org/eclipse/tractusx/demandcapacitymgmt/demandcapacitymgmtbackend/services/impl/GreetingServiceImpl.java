@@ -14,17 +14,13 @@ import org.springframework.stereotype.Service;
 public class GreetingServiceImpl implements GreetingService {
 
     private final TestRepository testRepository;
+
     @Override
     public void saveGreeting(Greeting greeting) {
-
-        TestEntity testEntity = TestEntity
-                .builder()
-                .build();
+        TestEntity testEntity = TestEntity.builder().build();
         testRepository.save(testEntity);
     }
 
     @Override
-    public void findById(String id) {
-
-    }
+    public void findById(String id) {}
 }
