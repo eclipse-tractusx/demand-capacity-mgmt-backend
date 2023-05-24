@@ -9,5 +9,4 @@ public class DemandCapacityMgmtBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemandCapacityMgmtBackendApplication.class, args);
     }
-
 }
