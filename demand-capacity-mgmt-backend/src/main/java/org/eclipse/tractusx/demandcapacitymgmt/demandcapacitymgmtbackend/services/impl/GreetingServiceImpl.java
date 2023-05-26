@@ -8,6 +8,8 @@ import org.eclipse.tractusx.demandcapacitymgmt.demandcapacitymgmtbackend.reposit
 import org.eclipse.tractusx.demandcapacitymgmt.demandcapacitymgmtbackend.services.GreetingService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -22,5 +24,7 @@ public class GreetingServiceImpl implements GreetingService {
     }
 
     @Override
-    public void findById(String id) {}
+    public void findById(String id) {
+        Optional<TestEntity> testEntity = testRepository.findById(id);
+    }
 }
