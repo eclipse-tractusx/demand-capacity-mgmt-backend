@@ -25,6 +25,5 @@ public class GreetingServiceImpl implements GreetingService {
 
     @Override
     public void findById(String id) {
-        Optional<TestEntity> testEntity = testRepository.findById(id);
     }
 }
