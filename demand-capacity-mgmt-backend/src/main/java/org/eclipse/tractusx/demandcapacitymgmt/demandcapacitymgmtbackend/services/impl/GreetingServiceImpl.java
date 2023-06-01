@@ -18,7 +18,10 @@ public class GreetingServiceImpl implements GreetingService {
 
     @Override
     public void saveGreeting(Greeting greeting) {
-        TestEntity testEntity = TestEntity.builder().build();
+        TestEntity testEntity = TestEntity.builder()
+                .name("test")
+                .id("test1")
+                .build();
         testRepository.save(testEntity);
     }
 
