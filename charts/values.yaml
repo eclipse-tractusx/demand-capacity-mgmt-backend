@@ -5,10 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  repository: ghcr.io/catenax-ng/tx-demand-capacity-mgmt-backend
+  pullPolicy: always
 
 imagePullSecrets: []
 nameOverride: ""
