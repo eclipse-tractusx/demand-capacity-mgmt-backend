@@ -3,6 +3,7 @@ package org.eclipse.tractusx.demandcapacitymgmt.demandcapacitymgmtbackend.contro
 import eclipse.tractusx.demand_capacity_mgmt_specification.api.DefaultApi;
 import eclipse.tractusx.demand_capacity_mgmt_specification.model.Greeting;
 import lombok.AllArgsConstructor;
+import org.eclipse.tractusx.demandcapacitymgmt.demandcapacitymgmtbackend.services.GreetingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class HelloController implements DefaultApi {
 
+    private final GreetingService greetingService;
+
     @Override
     public ResponseEntity<Greeting> getGreeting() {
+        greetingService.saveGreeting(null);
         return null;
     }
 }
