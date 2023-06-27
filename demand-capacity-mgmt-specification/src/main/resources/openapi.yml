@@ -6,23 +6,401 @@ servers:
   - url: https://localhost:8080/api/v1
 
 paths:
-  /hello-open:
-    get:
-      summary: return a simple generic greeting
-      operationId: getGreeting
+
+  /project:
+    post:
+      tags:
+        - Project
+      summary: create a project
+      operationId: postProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectRequestDto'
       responses:
         200:
           description: General greeting
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Greeting'
+                $ref: '#/components/schemas/ProjectResponseDto'
+    get:
+      tags:
+        - Project
+      summary: get a list of projects
+      operationId: getProjects
+
+      responses:
+        200:
+          description: General greeting
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectResponseDto'
+
+  /project/{project_id}:
+    get:
+      tags:
+        - Project
+      summary: get project by Id
+      operationId: getProjectById
+      parameters:
+        - in: 'path'
+          name: 'project_id'
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: General greeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponseDto'
+
+  /demand:
+    post:
+      tags:
+        - Demand
+      summary: create a demand
+      operationId: postDemand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandRequestDto'
+      responses:
+        200:
+          description: General greeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandResponseDto'
+    get:
+      tags:
+        - Demand
+      summary: get list of demand by ProjectId
+      operationId: getDemandsByProjectID
+      parameters:
+        - in: 'query'
+          name: 'project_id'
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: General greeting
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DemandResponseDto'
+
+  /demand/{demand_id}:
+    get:
+      tags:
+        - Demand
+      summary: get demand by Id
+      operationId: getDemandsById
+      parameters:
+        - in: 'path'
+          name: 'demand_id'
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: General greeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandResponseDto'
+
+    put:
+      tags:
+        - Demand
+      summary: update demand by Id
+      operationId: updateDemandsById
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemandRequestUpdateDto'
+      parameters:
+        - in: 'path'
+          name: 'demand_id'
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Update of demands
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemandResponseDto'
+    delete:
+      tags:
+        - Demand
+      summary: delete demand by Id
+      operationId: deleteDemandsById
+      parameters:
+        - in: 'path'
+          name: 'demand_id'
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: Delete demand with id
+
+
+  /weekbasedcapacitygroup:
+    post:
+      tags:
+        - weekBasedCapacityGroup
+      summary: weekBasedCapacityGroup
+      operationId: postWeekBasedCapacityGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeekBasedCapacityGroupRequestList'
+      responses:
+        200:
+          description: weekBasedCapacityGroup endpoint
+
+  /weekbasedmaterialdemand:
+    post:
+      tags:
+        - weekBasedMaterialDemand
+      summary: weekBasedCapacityGroup
+      operationId: postWeekBasedMaterialDemand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeekBasedMaterialDemandRequestDtoList'
+      responses:
+        200:
+          description: weekBasedCapacityGroup endpoint
+
 components:
   schemas:
-    Greeting:
+
+    ProjectRequestDto:
       type: object
       properties:
-        message:
+        name:
           type: string
-          example: 'Hello from Spring'
-          default: 'Hello visitor'
+        startDate:
+          type: string
+        endDate:
+          type: string
+        noTimeProject:
+          type: boolean
+        type:
+          type: string
+          enum: [ DEMAND_CAPACITY, MATERIAL_CAPACITY ]
+
+    ProjectResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+
+    DemandRequestDto:
+      type: object
+      properties:
+        startDate:
+          type: string
+        endDate:
+          type: string
+        requiredValue:
+          type: number
+        deliveredValue:
+          type: number
+        maximumValue:
+          type: number
+        productId:
+          type: string
+        projectId:
+          type: string
+        demandCategory:
+          type: string
+        companyId:
+          type: string
+        description:
+          type: string
+
+    DemandResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        requiredValue:
+          type: number
+        deliveredValue:
+          type: number
+        maximumValue:
+          type: number
+        description:
+          type: string
+        demandCategory:
+          type: string
+        companyId:
+          type: string
+        product:
+          $ref: '#/components/schemas/ProductDto'
+
+    DemandRequestUpdateDto:
+      type: object
+      properties:
+        actualDemand:
+          type: number
+
+    ProductDto:
+      type: object
+      properties:
+        name:
+          type: string
+        un:
+          type: string
+
+    DemandCategoryDto:
+      type: object
+      properties:
+        demandCategory:
+          type: string
+
+    LinkedDemandSeries:
+      type: object
+      properties:
+        materialNumberCustomer:
+          type: string
+        materialNumberSupplier:
+          type: string
+        customerLocation:
+          type: string
+        demandCategory:
+          $ref: '#/components/schemas/DemandCategoryDto'
+
+    CapacitiesDto:
+      type: object
+      properties:
+        calendarWeek:
+          type: string
+        actualCapacity:
+          type: string
+        maximumCapacity:
+          type: string
+
+    WeekBasedCapacityGroupRequest:
+      type: object
+      properties:
+        unityOfMeasure:
+          type: string
+        linkedDemandSeries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinkedDemandSeries'
+        supplier:
+          type: string
+        name:
+          type: string
+        supplierLocations:
+          type: array
+          items:
+            type: string
+        capacities:
+          type: array
+          items:
+            $ref: '#/components/schemas/CapacitiesDto'
+        changedAt:
+          type: string
+        capacityGroupId:
+          type: string
+        customer:
+          type: string
+
+
+    DemandSeriesDto:
+      type: object
+      properties:
+        demand:
+          type: string
+        calendarWeek:
+          type: string
+
+    DemandSeriesCategoryDto:
+      type: object
+      properties:
+        demandCategoryCode:
+          type: string
+
+    DemandWeekSeriesDto:
+      type: object
+      properties:
+        expectedSupplierLocation:
+          type: string
+        demands:
+          type: array
+          items:
+            $ref: '#/components/schemas/DemandSeriesDto'
+        customerLocation:
+          type: string
+        demandCategory:
+          $ref: '#/components/schemas/DemandSeriesCategoryDto'
+
+    WeekBasedMaterialDemandRequestDto:
+      type: object
+      properties:
+        unityOfMeasure:
+          type: string
+        materialDescriptionCustomer:
+          type: string
+        materialDemandId:
+          type: string
+        materialNumberSupplier:
+          type: string
+        supplier:
+          type: string
+        changedAt:
+          type: string
+        demandSeries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DemandWeekSeriesDto'
+        materialNumberCustomer:
+          type: string
+        customer:
+          type: string
+
+    WeekBasedMaterialDemandRequestDtoList:
+      type: array
+      items:
+        $ref: '#/components/schemas/WeekBasedMaterialDemandRequestDto'
+
+    WeekBasedCapacityGroupRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/WeekBasedCapacityGroupRequest'

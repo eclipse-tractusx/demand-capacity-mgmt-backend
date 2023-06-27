@@ -9,18 +9,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Table(name = "CUSTOMER")
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "TEST")
-public class TestEntity {
+public class CustomerEntity {
 
     @Id
     @Column(name = "ID")
-    private String id;
+    private Long id;
 
     @Column(name = "NAME")
     private String name;
+
+    @Column(name = "LEGAL_NAME")
+    private String legalName;
+
+    @Column(name = "EDC_URL")
+    private String edcUrl;
 }
